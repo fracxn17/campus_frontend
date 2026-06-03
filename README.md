@@ -18,9 +18,6 @@ uv run uvicorn main:app --host localhost --port 5000 --reload
 # Navigate to the frontend directory
 cd frontend
 
-# Install dependencies
-bun install
-
 # Start the Vite development server on port 5173
 bun run dev
 ```
