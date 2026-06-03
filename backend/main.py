@@ -143,6 +143,14 @@ def make_unified_user(user: LOGIN):
 
 # --- NEW REACT FRONTEND COMPATIBILITY ENDPOINTS ---
 
+@app.get("/")
+def main():
+    return {
+        "health": "ok",
+        "message": "backend server is up and running",
+        "docs": "/docs"
+    }
+
 @app.post("/api/register")
 def api_register(info: RegisterRequest):
     db = SessionLocal()

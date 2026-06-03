@@ -9,10 +9,10 @@
 cd backend
 
 # Install dependencies
-pip install fastapi uvicorn sqlalchemy python-dotenv python-jose[cryptography] bcrypt python-multipart
+uv add fastapi uvicorn sqlalchemy python-dotenv python-jose[cryptography] bcrypt python-multipart
 
 # Start the FastAPI server on port 5000
-uvicorn main:app --host 127.0.0.1 --port 5000 --reload
+uv run uvicorn main:app --host localhost --port 5000 --reload
 ```
 
 ### 2. Run the Frontend
@@ -22,8 +22,8 @@ uvicorn main:app --host 127.0.0.1 --port 5000 --reload
 cd frontend
 
 # Install dependencies
-npm install
+bun install
 
 # Start the Vite development server on port 5173
-npm run dev
+bun run dev
 ```
