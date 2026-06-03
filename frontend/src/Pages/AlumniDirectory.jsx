@@ -17,6 +17,8 @@ export const alumniData = [
 ];
 
 const AlumniDirectory = () => {
+  const [alumniList, setAlumniList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBatch, setSelectedBatch] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('');
@@ -24,11 +26,53 @@ const AlumniDirectory = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
 
-  const filteredAlumni = alumniData.filter(alumni => {
-    const matchesSearch = alumni.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          alumni.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          alumni.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          alumni.designation.toLowerCase().includes(searchQuery.toLowerCase());
+  useEffect(() => {
+    const fetchAlumni = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/users');
+        const data = await response.json();
+        if (data.success) {
+          const alumniOnly = data.users.filter(u => u.role === 'alumni');
+          const combined = alumniOnly.length > 0 ? alumniOnly : [
+            {
+              id: 1,
+              name: 'Jay Prakash Sharma',
+              designation: 'MERN developer',
+              company: 'TCS',
+              batch: '2021',
+              department: 'Computer Science',
+              location: 'West Bengal, India',
+            }
+          ];
+          const mapped = combined.map(a => ({
+            ...a,
+            name: a.fullName || a.name || 'Anonymous Alumni',
+            company: a.company || 'Not Specified',
+            designation: a.designation || 'Alumni',
+            batch: a.batch || 'N/A',
+            department: a.department || 'N/A',
+            location: a.location || 'N/A'
+          }));
+          setAlumniList(mapped);
+        }
+      } catch (err) {
+        console.error("Error fetching alumni:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAlumni();
+  }, []);
+
+  const filteredAlumni = alumniList.filter(alumni => {
+    const nameVal = alumni.name || '';
+    const compVal = alumni.company || '';
+    const locVal = alumni.location || '';
+    const desVal = alumni.designation || '';
+    const matchesSearch = nameVal.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          compVal.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          locVal.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          desVal.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesBatch = !selectedBatch || alumni.batch === selectedBatch;
     const matchesDepartment = !selectedDepartment || alumni.department === selectedDepartment;
     return matchesSearch && matchesBatch && matchesDepartment;
@@ -43,16 +87,17 @@ const AlumniDirectory = () => {
   };
 
   // Get unique departments and batches
-  const departments = [...new Set(alumniData.map(a => a.department))];
-  const batches = [...new Set(alumniData.map(a => a.batch))].sort();
+  const departments = [...new Set(alumniList.map(a => a.department).filter(d => d && d !== 'N/A'))];
+  const batches = [...new Set(alumniList.map(a => a.batch).filter(b => b && b !== 'N/A'))].sort();
 
   // Stats
   const stats = [
-    { icon: Users, label: 'Total Alumni', value: alumniData.length },
-    { icon: Building, label: 'Companies', value: new Set(alumniData.map(a => a.company)).size },
-    { icon: MapPin, label: 'Locations', value: new Set(alumniData.map(a => a.location)).size },
+    { icon: Users, label: 'Total Alumni', value: alumniList.length },
+    { icon: Building, label: 'Companies', value: new Set(alumniList.map(a => a.company).filter(c => c && c !== 'Not Specified')).size },
+    { icon: MapPin, label: 'Locations', value: new Set(alumniList.map(a => a.location).filter(l => l && l !== 'N/A')).size },
     { icon: GraduationCap, label: 'Batches', value: batches.length },
   ];
+
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -60,7 +105,7 @@ const AlumniDirectory = () => {
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-2 hero-animate">Alumni Directory</h1>
         <p className="text-gray-600 hero-animate-delay">
-          Connect with {alumniData.length}+ alumni from around the world
+          Connect with {alumniList.length}+ alumni from around the world
         </p>
       </div>
 

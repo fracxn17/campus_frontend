@@ -1,5 +1,5 @@
-import React from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { GraduationCap, LogOut, Bell, Search, Sun, Moon } from 'lucide-react';
 import Sidebar from '../Components/Sidebar';
 import { useAuth } from '../context/AuthContext';
@@ -7,8 +7,19 @@ import { useTheme } from '../context/ThemeContext';
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const location = useLocation();
+  const { user, loading, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        navigate('/login');
+      } else if (location.pathname === '/admin' && user.role !== 'admin') {
+        navigate('/dashboard');
+      }
+    }
+  }, [user, loading, navigate, location.pathname]);
 
   const handleLogout = () => {
     logout();
@@ -25,6 +36,19 @@ const DashboardLayout = () => {
       .toUpperCase()
       .slice(0, 2);
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-xl font-semibold text-gray-600 dark:text-gray-300 animate-pulse">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
+
 
   return (
     <div className="min-h-screen bg-gray-50">
