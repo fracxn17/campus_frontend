@@ -19,7 +19,7 @@ ALGORITHM = os.getenv("ALGORITHM", "HS256")
 security = HTTPBearer()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 # Dynamically set root_path when running in serverless environments (Netlify/AWS Lambda)
-root_path = "/.netlify/functions/main" if (os.getenv("LAMBDA_TASK_ROOT") or os.getenv("NETLIFY")) else ""
+root_path = "/.netlify/functions/api" if (os.getenv("LAMBDA_TASK_ROOT") or os.getenv("NETLIFY")) else ""
 app = FastAPI(root_path=root_path)
 
 # Enable CORS for frontend requests
