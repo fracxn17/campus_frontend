@@ -65,8 +65,15 @@ const EventCard = ({ event }) => {
           )}
         </div>
 
-        <button className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-          Register Now
+        <button
+          disabled={event.date === 'Stay Tuned'}
+          className={`w-full py-2 text-white rounded-lg transition-colors duration-300 ${
+            event.date === 'Stay Tuned'
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-blue-600 hover:bg-blue-700'
+          }`}
+        >
+          {event.date === 'Stay Tuned' ? 'Not available' : 'Register Now'}
         </button>
       </div>
     </div>

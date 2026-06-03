@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Send, MoreVertical } from 'lucide-react';
+import jayPhoto from '../assets/jay_prakash.jpg';
 
 function ImageWithFallback({ src, alt, className }) {
   const [error, setError] = useState(false);
@@ -10,8 +11,8 @@ function ImageWithFallback({ src, alt, className }) {
 const conversations = [
   {
     id: 1,
-    name: 'Sarah Johnson',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300',
+    name: 'Jay Prakash Sharma',
+    image: jayPhoto,
     lastMessage: 'Thanks for connecting!',
     timestamp: '2m ago',
     unread: true,

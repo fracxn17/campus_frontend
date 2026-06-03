@@ -1,20 +1,19 @@
-import React from 'react';
-import { Users, UserPlus, Calendar, Briefcase, TrendingUp, Edit, Trash2 } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { Users, UserPlus, Calendar, TrendingUp, Edit, Trash2 } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const monthlyData = [
-  { month: 'Jan', alumni: 245, events: 12, jobs: 35 },
-  { month: 'Feb', alumni: 289, events: 15, jobs: 42 },
-  { month: 'Mar', alumni: 312, events: 18, jobs: 48 },
-  { month: 'Apr', alumni: 356, events: 14, jobs: 52 },
-  { month: 'May', alumni: 398, events: 20, jobs: 58 },
-  { month: 'Jun', alumni: 425, events: 22, jobs: 65 },
+  { month: 'Jan', alumni: 245, events: 12 },
+  { month: 'Feb', alumni: 289, events: 15 },
+  { month: 'Mar', alumni: 312, events: 18 },
+  { month: 'Apr', alumni: 356, events: 14 },
+  { month: 'May', alumni: 398, events: 20 },
+  { month: 'Jun', alumni: 425, events: 22 },
 ];
 
 const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444'];
 
 const recentUsers = [
-  { id: 1, name: 'Sarah Johnson', email: 'sarah.j@email.com', batch: '2015', status: 'Active' },
+  { id: 1, name: 'Jay Prakash Sharma', email: 'jay.prakash@email.com', batch: '2021', status: 'Active' },
   { id: 2, name: 'Michael Chen', email: 'michael.c@email.com', batch: '2018', status: 'Active' },
   { id: 3, name: 'Priya Patel', email: 'priya.p@email.com', batch: '2017', status: 'Pending' },
 ];
@@ -28,7 +27,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid md:grid-cols-4 gap-6 mb-8">
+      <div className="grid md:grid-cols-3 gap-6 mb-8">
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -64,18 +63,6 @@ const AdminDashboard = () => {
           <div className="text-gray-600">Events Conducted</div>
           <div className="text-sm text-green-600 mt-2">+15% from last year</div>
         </div>
-
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-              <Briefcase className="w-6 h-6 text-orange-600" />
-            </div>
-            <TrendingUp className="w-5 h-5 text-green-500" />
-          </div>
-          <div className="text-3xl text-gray-900 mb-1">1,234</div>
-          <div className="text-gray-600">Job Postings</div>
-          <div className="text-sm text-green-600 mt-2">+20% from last month</div>
-        </div>
       </div>
 
       {/* Chart */}
@@ -89,7 +76,6 @@ const AdminDashboard = () => {
             <Tooltip />
             <Bar dataKey="alumni" fill="#3B82F6" />
             <Bar dataKey="events" fill="#10B981" />
-            <Bar dataKey="jobs" fill="#F59E0B" />
           </BarChart>
         </ResponsiveContainer>
       </div>

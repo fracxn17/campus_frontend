@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, Building, Mail, Phone, Linkedin, Globe, Edit, Award, Briefcase, GraduationCap, Users, Heart, MessageCircle, Share2, ExternalLink, Star, TrendingUp, Save, X, User } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { alumniData } from './AlumniDirectory';
+import jayPhoto from '../assets/jay_prakash.jpg';
+
 
 function ImageWithFallback({ src, alt, className }) {
   const [error, setError] = useState(false);
@@ -39,12 +43,19 @@ function Counter({ target }) {
 
 const AlumniProfile = () => {
   const { user, login } = useAuth();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isOwnProfile = !id || id === String(user?.id);
+
   const [activeTab, setActiveTab] = useState('about');
   const [isFollowing, setIsFollowing] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+
+  // State to hold the profile currently being displayed
+  const [displayedProfile, setDisplayedProfile] = useState(null);
 
   // Local state for profile form fields
   const [profileData, setProfileData] = useState({
@@ -57,9 +68,53 @@ const AlumniProfile = () => {
     rollNumber: '',
   });
 
-  // Sync profile fields from Auth Context on mount/update
+  // Load profile dynamically based on own vs others
   useEffect(() => {
-    if (user) {
+    if (isOwnProfile) {
+      setDisplayedProfile(user);
+    } else {
+      // 1. Check in static mock alumniData
+      const mockAlumni = alumniData.find(a => String(a.id) === id);
+      if (mockAlumni) {
+        setDisplayedProfile({
+          id: mockAlumni.id,
+          fullName: mockAlumni.name,
+          image: mockAlumni.image,
+          degree: mockAlumni.designation,
+          company: mockAlumni.company,
+          batch: mockAlumni.batch,
+          department: mockAlumni.department,
+          location: mockAlumni.location,
+          email: mockAlumni.name.toLowerCase().replace(/\s+/g, '') + '@company.com',
+          phone: '',
+          rollNumber: '',
+        });
+      } else {
+        // 2. Fetch from the server
+        const fetchAlumnus = async () => {
+          setLoading(true);
+          try {
+            const response = await fetch(`http://localhost:5000/api/users/${id}`);
+            const data = await response.json();
+            if (data.success) {
+              setDisplayedProfile(data.user);
+            } else {
+              setErrorMsg(data.message || 'Profile not found.');
+            }
+          } catch (err) {
+            setErrorMsg('Failed to load profile details.');
+          } finally {
+            setLoading(false);
+          }
+        };
+        fetchAlumnus();
+      }
+    }
+  }, [id, isOwnProfile, user]);
+
+  // Sync profile fields from Auth Context on mount/update (only for own profile)
+  useEffect(() => {
+    if (isOwnProfile && user) {
       setProfileData({
         fullName: user.fullName || '',
         department: user.department || '',
@@ -70,7 +125,7 @@ const AlumniProfile = () => {
         rollNumber: user.rollNumber || '',
       });
     }
-  }, [user]);
+  }, [user, isOwnProfile]);
 
   const tabs = [
     { id: 'about', label: 'About', icon: Users },
@@ -176,7 +231,7 @@ const AlumniProfile = () => {
             <div className="flex flex-col md:flex-row md:items-end gap-6 text-center md:text-left">
               <div className="relative group mx-auto md:mx-0">
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300"
+                  src={displayedProfile?.image || jayPhoto}
                   alt="Profile"
                   className="w-32 h-32 rounded-full border-4 border-white object-cover shadow-lg transition-transform duration-300 group-hover:scale-105"
                 />
@@ -184,23 +239,23 @@ const AlumniProfile = () => {
               </div>
               <div className="mb-4">
                 <h1 className="text-3xl font-bold text-gray-900 mb-1">
-                  {user?.fullName || 'Sarah Johnson'}
+                  {displayedProfile?.fullName || displayedProfile?.name || 'Jay Prakash Sharma'}
                 </h1>
                 <p className="text-lg text-gray-600 mb-2">
-                  {user?.degree ? `${user.degree} Student` : 'Student Portal'}
+                  {displayedProfile?.degree || 'Alumnus'}
                 </p>
                 <div className="flex flex-wrap justify-center md:justify-start gap-4 text-gray-500 text-sm">
                   <span className="flex items-center gap-1">
                     <MapPin className="w-4 h-4" />
-                    {user?.location || 'Bengaluru, India'}
+                    {displayedProfile?.location || 'West Bengal, India'}
                   </span>
                   <span className="flex items-center gap-1">
                     <GraduationCap className="w-4 h-4" />
-                    Class of {user?.batch || '2024'}
+                    Class of {displayedProfile?.batch || '2021'}
                   </span>
                   <span className="flex items-center gap-1">
                     <Building className="w-4 h-4" />
-                    {user?.department || 'Computer Science'}
+                    {displayedProfile?.company ? `${displayedProfile.company} (${displayedProfile?.department || 'Computer Science'})` : (displayedProfile?.department || 'Computer Science')}
                   </span>
                 </div>
               </div>
@@ -208,24 +263,36 @@ const AlumniProfile = () => {
 
             {/* Profile Action Buttons */}
             <div className="flex flex-wrap justify-center gap-3 self-center md:self-auto mt-4 md:mt-0">
-              <button
-                onClick={() => setIsEditing(true)}
-                className="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-200 flex items-center gap-2 text-sm font-medium transition-all duration-300"
-              >
-                <Edit className="w-4 h-4" />
-                Edit Profile
-              </button>
-              <button
-                onClick={() => setIsFollowing(!isFollowing)}
-                className={`px-5 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-all duration-300 ${
-                  isFollowing
-                    ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                <Heart className={`w-4 h-4 transition-all duration-300 ${isFollowing ? 'fill-red-500 text-red-500' : ''}`} />
-                {isFollowing ? 'Following' : 'Follow'}
-              </button>
+              {isOwnProfile ? (
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-200 flex items-center gap-2 text-sm font-medium transition-all duration-300"
+                >
+                  <Edit className="w-4 h-4" />
+                  Edit Profile
+                </button>
+              ) : (
+                <>
+                  <button
+                    onClick={() => navigate('/messages', { state: { recipient: displayedProfile } })}
+                    className="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-200 flex items-center gap-2 text-sm font-medium transition-all duration-300"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    Message
+                  </button>
+                  <button
+                    onClick={() => setIsFollowing(!isFollowing)}
+                    className={`px-5 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-all duration-300 ${
+                      isFollowing
+                        ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    <Heart className={`w-4 h-4 transition-all duration-300 ${isFollowing ? 'fill-red-500 text-red-500' : ''}`} />
+                    {isFollowing ? 'Following' : 'Follow'}
+                  </button>
+                </>
+              )}
             </div>
           </div>
 
@@ -410,20 +477,20 @@ const AlumniProfile = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 benefit-card">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 font-display">Contact Information</h2>
             <div className="space-y-3">
-              <a href={`mailto:${user?.email || 'student@test.com'}`} className="flex items-center gap-3 text-gray-600 hover:text-blue-600 transition-colors group">
+              <a href={`mailto:${displayedProfile?.email || 'student@test.com'}`} className="flex items-center gap-3 text-gray-600 hover:text-blue-600 transition-colors group">
                 <Mail className="w-5 h-5 flex-shrink-0 group-hover:scale-110 transition-transform" />
-                <span className="text-sm truncate">{user?.email || 'student@test.com'}</span>
+                <span className="text-sm truncate">{displayedProfile?.email || 'student@test.com'}</span>
               </a>
-              {user?.phone && (
+              {displayedProfile?.phone && (
                 <div className="flex items-center gap-3 text-gray-600">
                   <Phone className="w-5 h-5 flex-shrink-0" />
-                  <span className="text-sm">{user.phone}</span>
+                  <span className="text-sm">{displayedProfile.phone}</span>
                 </div>
               )}
-              {user?.rollNumber && (
+              {displayedProfile?.rollNumber && (
                 <div className="flex items-center gap-3 text-gray-600">
                   <GraduationCap className="w-5 h-5 flex-shrink-0" />
-                  <span className="text-sm">Roll No: {user.rollNumber}</span>
+                  <span className="text-sm">Roll No: {displayedProfile.rollNumber}</span>
                 </div>
               )}
             </div>
@@ -459,7 +526,11 @@ const AlumniProfile = () => {
               <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 benefit-card">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4 font-display">About</h2>
                 <p className="text-gray-600 leading-relaxed text-sm">
-                  Passionate student currently pursuing learning in {user?.department || 'Computer Science'}. Eager to connect with the campus community, grow skills in modern engineering, and network with esteemed alumni globally.
+                  {isOwnProfile ? (
+                    `Passionate student currently pursuing learning in ${displayedProfile?.department || 'Computer Science'}. Eager to connect with the campus community, grow skills in modern engineering, and network with esteemed alumni globally.`
+                  ) : (
+                    `Experienced professional working in ${displayedProfile?.department || 'Computer Science'}. Interested in mentoring students, sharing industry knowledge, and connecting with fellow alumni.`
+                  )}
                 </p>
               </div>
 
@@ -469,8 +540,8 @@ const AlumniProfile = () => {
                   Education
                 </h2>
                 <div className="border-l-2 border-blue-600 pl-4">
-                  <h3 className="text-base font-semibold text-gray-900">{user?.degree || 'B.Tech'} in {user?.department || 'Computer Science'}</h3>
-                  <p className="text-gray-600 text-sm">Bengal Institute of Technology • Class of {user?.batch || '2024'}</p>
+                  <h3 className="text-base font-semibold text-gray-900">{displayedProfile?.degree || 'B.Tech'} in {displayedProfile?.department || 'Computer Science'}</h3>
+                  <p className="text-gray-600 text-sm">Bengal Institute of Technology • Class of {displayedProfile?.batch || '2021'}</p>
                 </div>
               </div>
             </div>

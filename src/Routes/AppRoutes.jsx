@@ -11,7 +11,6 @@ import Dashboard from '../Pages/Dashboard';
 import AlumniDirectory from '../Pages/AlumniDirectory';
 import AlumniProfile from '../Pages/AlumniProfile';
 import Events from '../Pages/Events';
-import Jobs from '../Pages/Jobs';
 import Messages from '../Pages/Messages';
 import Contact from '../Pages/Contact';
 import AdminDashboard from '../Pages/AdminDashboard';
@@ -26,7 +25,6 @@ const AppRoutes = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/directory" element={<AlumniDirectory />} />
         <Route path="/events" element={<Events />} />
-        <Route path="/jobs" element={<Jobs />} />
         <Route path="/contact" element={<Contact />} />
       </Route>
 
@@ -34,6 +32,7 @@ const AppRoutes = () => {
       <Route element={<DashboardLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<AlumniProfile />} />
+        <Route path="/profile/:id" element={<AlumniProfile />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/admin" element={<AdminDashboard />} />
       </Route>

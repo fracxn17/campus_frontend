@@ -1,12 +1,14 @@
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { GraduationCap, LogOut, Bell, Search } from 'lucide-react';
+import { GraduationCap, LogOut, Bell, Search, Sun, Moon } from 'lucide-react';
 import Sidebar from '../Components/Sidebar';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const handleLogout = () => {
     logout();
@@ -43,6 +45,14 @@ const DashboardLayout = () => {
                   className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-64"
                 />
               </div>
+              {/* Theme Toggle Button */}
+              <button
+                onClick={toggleTheme}
+                className="p-2 text-gray-600 hover:text-blue-600 hover:bg-gray-100 rounded-lg transition-all duration-300 animate-pulse"
+                aria-label="Toggle Theme"
+              >
+                {theme === 'dark' ? <Sun className="w-6 h-6 text-yellow-500 animate-spin-slow" /> : <Moon className="w-6 h-6" />}
+              </button>
               <button className="relative p-2 text-gray-600 hover:text-blue-600 hover:bg-gray-100 rounded-lg">
                 <Bell className="w-6 h-6" />
                 <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>

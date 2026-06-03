@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { GraduationCap, User, LogOut, ChevronDown, Menu, X } from 'lucide-react';
+import { GraduationCap, User, LogOut, ChevronDown, Menu, X, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, isAuthenticated, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const dropdownRef = useRef(null);
@@ -42,16 +44,15 @@ const Navbar = () => {
   // Different nav links based on auth state
   const navLinks = isAuthenticated()
     ? [
-        { to: '/', label: 'Home' },
-        { to: '/directory', label: 'Alumni Directory' },
-        { to: '/events', label: 'Events' },
-        { to: '/jobs', label: 'Jobs' },
-        { to: '/contact', label: 'About' },
-      ]
+      { to: '/', label: 'Home' },
+      { to: '/directory', label: 'Alumni Directory' },
+      { to: '/events', label: 'Events' },
+      { to: '/contact', label: 'About' },
+    ]
     : [
-        { to: '/', label: 'Home' },
-        { to: '/contact', label: 'About' },
-      ];
+      { to: '/', label: 'Home' },
+      { to: '/contact', label: 'About' },
+    ];
 
   const isActive = (path) => {
     if (path === '/') return location.pathname === '/';
@@ -66,18 +67,17 @@ const Navbar = () => {
             <GraduationCap className="w-8 h-8 text-blue-600 transition-transform duration-300 group-hover:rotate-12" />
             <span className="text-xl font-bold text-gray-900">CampusLegacy</span>
           </Link>
-          
+
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
-                className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                  isActive(link.to)
-                    ? 'text-blue-600 bg-blue-50 shadow-[0_0_15px_rgba(59,130,246,0.3)]'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                }`}
+                className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${isActive(link.to)
+                  ? 'text-blue-600 bg-blue-50 shadow-[0_0_15px_rgba(59,130,246,0.3)]'
+                  : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                  }`}
               >
                 {link.label}
                 {isActive(link.to) && (
@@ -85,7 +85,16 @@ const Navbar = () => {
                 )}
               </Link>
             ))}
-            
+
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 ml-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-all duration-300 animate-pulse"
+              aria-label="Toggle Theme"
+            >
+              {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-500 animate-spin-slow" /> : <Moon className="w-5 h-5" />}
+            </button>
+
             {isAuthenticated() ? (
               <>
                 {/* User Avatar Dropdown */}
@@ -124,22 +133,6 @@ const Navbar = () => {
 
                       {/* Menu Items */}
                       <div className="py-1">
-                        <Link
-                          to="/dashboard"
-                          onClick={() => setShowDropdown(false)}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                        >
-                          <User className="w-4 h-4 text-gray-400" />
-                          Dashboard
-                        </Link>
-                        <Link
-                          to="/profile"
-                          onClick={() => setShowDropdown(false)}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                        >
-                          <User className="w-4 h-4 text-gray-400" />
-                          My Profile
-                        </Link>
                         <button
                           onClick={handleLogout}
                           className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200"
@@ -179,15 +172,24 @@ const Navbar = () => {
                 key={link.to}
                 to={link.to}
                 onClick={() => setShowMobileMenu(false)}
-                className={`block px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${
-                  isActive(link.to)
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                }`}
+                className={`block px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${isActive(link.to)
+                  ? 'text-blue-600 bg-blue-50'
+                  : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                  }`}
               >
                 {link.label}
               </Link>
             ))}
+
+            {/* Theme Toggle in Mobile */}
+            <button
+              onClick={() => { toggleTheme(); setShowMobileMenu(false); }}
+              className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-all duration-300"
+            >
+              <span>Toggle Mode</span>
+              {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5" />}
+            </button>
+
             {isAuthenticated() ? (
               <>
                 <div className="px-4 py-3 border-t border-gray-100 mt-2">

@@ -58,7 +58,7 @@ const AlumniCard = ({ alumni }) => {
 
         <div className="flex gap-2">
           <button
-            onClick={() => navigate('/profile')}
+            onClick={() => navigate(`/profile/${alumni.id}`)}
             className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
           >
             View Profile

@@ -10,13 +10,13 @@ export const alumniAPI = {
     return Promise.resolve([
       {
         id: 1,
-        name: 'Sarah Johnson',
-        designation: 'CEO',
-        company: 'TechVentures Inc.',
-        batch: '2015',
+        name: 'Jay Prakash Sharma',
+        designation: 'MERN developer',
+        company: 'TCS',
+        batch: '2021',
         department: 'Computer Science',
-        location: 'San Francisco, CA',
-        image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300',
+        location: 'West Bengal, India',
+        image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300',
       },
       // Add more alumni data
     ]);
@@ -54,21 +54,6 @@ export const eventsAPI = {
   },
 };
 
-// Jobs API
-export const jobsAPI = {
-  getAll: async () => {
-    return Promise.resolve([]);
-  },
-  
-  getById: async (id) => {
-    return Promise.resolve({});
-  },
-  
-  apply: async (jobId, userId) => {
-    return Promise.resolve({ success: true });
-  },
-};
-
 // Auth API
 export const authAPI = {
   login: async (email, password) => {
@@ -91,6 +76,5 @@ export const authAPI = {
 export default {
   alumniAPI,
   eventsAPI,
-  jobsAPI,
   authAPI,
 };

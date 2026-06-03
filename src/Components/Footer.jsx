@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <GraduationCap className="w-8 h-8 text-blue-400" />
@@ -23,25 +23,17 @@ const Footer = () => {
             </div>
           </div>
           
-          <div>
-            <h4 className="text-lg mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li><Link to="/" className="hover:text-white">About Us</Link></li>
-              <li><Link to="/directory" className="hover:text-white">Alumni Directory</Link></li>
-              <li><Link to="/events" className="hover:text-white">Events</Link></li>
-              <li><Link to="/jobs" className="hover:text-white">Career Portal</Link></li>
-            </ul>
+          <div className="flex flex-col md:items-center">
+            <div>
+              <h4 className="text-lg mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><Link to="/" className="hover:text-white">About Us</Link></li>
+                <li><Link to="/directory" className="hover:text-white">Alumni Directory</Link></li>
+                <li><Link to="/events" className="hover:text-white">Events</Link></li>
+              </ul>
+            </div>
           </div>
           
-          <div>
-            <h4 className="text-lg mb-4">For Alumni</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li><Link to="/register" className="hover:text-white">Register</Link></li>
-              <li><Link to="/login" className="hover:text-white">Login</Link></li>
-              <li><Link to="/profile" className="hover:text-white">Update Profile</Link></li>
-              <li><Link to="#" className="hover:text-white">Privacy Policy</Link></li>
-            </ul>
-          </div>
           
           <div>
             <h4 className="text-lg mb-4">Contact</h4>

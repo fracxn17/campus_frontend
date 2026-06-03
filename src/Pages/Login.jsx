@@ -64,35 +64,37 @@ const Login = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0] flex flex-col justify-center items-center p-4 overflow-hidden">
-      {/* Light Premium Blurred Ambient Gradient Blobs */}
-      <div className="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-tr from-blue-300/30 to-indigo-300/20 blur-[130px] animate-pulse duration-[10000ms] pointer-events-none"></div>
-      <div className="absolute bottom-[-15%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-br from-purple-300/20 to-pink-300/20 blur-[120px] animate-pulse duration-[8000ms] pointer-events-none" style={{ animationDelay: '2s' }}></div>
-      <div className="absolute top-[20%] right-[10%] w-[35vw] h-[35vw] rounded-full bg-blue-400/10 blur-[110px] pointer-events-none"></div>
+    <div className="relative min-h-screen flex flex-col justify-center items-center p-4 overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, var(--color-bg), var(--color-card))' }}
+    >
+      {/* Dark Premium Blurred Ambient Gradient Blobs */}
+      <div className="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-tr from-peachAccent/10 to-peachHover/10 blur-[130px] animate-pulse duration-[10000ms] pointer-events-none"></div>
+      <div className="absolute bottom-[-15%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-br from-peachHover/5 to-pink-500/5 blur-[120px] animate-pulse duration-[8000ms] pointer-events-none" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-[20%] right-[10%] w-[35vw] h-[35vw] rounded-full bg-peachAccent/5 blur-[110px] pointer-events-none"></div>
 
       {/* Floating soft light glass rings/orbs */}
-      <div className="absolute top-[10%] left-[5%] w-28 h-28 bg-white/40 border border-white/60 rounded-full backdrop-blur-md float-animation pointer-events-none"></div>
-      <div className="absolute bottom-[10%] right-[8%] w-36 h-36 bg-white/40 border border-white/60 rounded-full backdrop-blur-lg float-animation pointer-events-none" style={{ animationDelay: '1.5s' }}></div>
+      <div className="absolute top-[10%] left-[5%] w-28 h-28 bg-white/5 border border-white/10 rounded-full backdrop-blur-md float-animation pointer-events-none"></div>
+      <div className="absolute bottom-[10%] right-[8%] w-36 h-36 bg-white/5 border border-white/10 rounded-full backdrop-blur-lg float-animation pointer-events-none" style={{ animationDelay: '1.5s' }}></div>
 
       <div className="max-w-md w-full z-10 relative">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-900 mb-6 transition-all duration-300 group text-sm font-medium"
+          className="inline-flex items-center gap-2 text-gray-400 hover:text-white dark:hover:text-orange-400 mb-6 transition-all duration-300 group text-sm font-medium"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           Back to Home
         </Link>
 
-        {/* Frosted White Glass Card Container */}
-        <div className="backdrop-blur-[24px] bg-white/70 border border-white/50 rounded-3xl shadow-[0_20px_50px_rgba(31,38,135,0.08)] p-8 md:p-10 transition-all duration-500 hover:shadow-[0_25px_55px_rgba(31,38,135,0.12)] hover:border-white/80">
+        {/* Frosted Dark Glass Card Container */}
+        <div className="backdrop-blur-[24px] bg-white/[0.05] border border-white/[0.1] dark:bg-[#0f1620]/80 dark:border-orange-500/20 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-8 md:p-10 transition-all duration-500 hover:border-white/[0.15] dark:hover:border-orange-500/30">
           <div className="text-center mb-8">
             <div className="flex justify-center mb-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20 transition-transform duration-300 hover:rotate-12">
-                <GraduationCap className="w-9 h-9 text-white" />
+              <div className="w-16 h-16 bg-gradient-to-br from-peachAccent to-peachHover dark:from-warmSaffron dark:to-lightSaffron rounded-2xl flex items-center justify-center shadow-lg shadow-peachAccent/20 transition-transform duration-300 hover:rotate-12">
+                <GraduationCap className="w-9 h-9 text-darkBg" />
               </div>
             </div>
-            <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight mb-2 font-display">Welcome Back</h2>
-            <p className="text-gray-500 text-sm">Sign in to your student portal</p>
+            <h2 className="text-3xl font-extrabold text-white dark:text-orange-400 tracking-tight mb-2 font-display">Welcome Back</h2>
+            <p className="text-gray-400 dark:text-gray-300 text-sm">Sign in to your student portal</p>
           </div>
 
           {/* Error Alert - Account Not Found */}
@@ -124,16 +126,16 @@ const Login = () => {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email Address */}
             <div className="space-y-2">
-              <label className="block text-gray-600 text-xs font-semibold uppercase tracking-wider">Email Address</label>
+              <label className="block text-gray-600 dark:text-orange-400 text-xs font-semibold uppercase tracking-wider">Email Address</label>
               <div className="relative group">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500 group-focus-within:text-blue-500 dark:group-focus-within:text-orange-500 transition-colors" />
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="your.email@university.edu"
-                  className="w-full pl-10 pr-4 py-3 bg-white/40 border border-gray-200 hover:border-gray-300 focus:border-blue-500 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500/30 transition-all duration-300 text-sm shadow-sm"
+                  className="w-full pl-10 pr-4 py-3 bg-white/40 border border-gray-200 hover:border-gray-300 focus:border-blue-500 rounded-xl text-gray-800 placeholder-gray-400 dark:bg-[#121a24]/90 dark:border-[#2c3b4d] dark:text-white dark:placeholder-gray-500 dark:hover:border-orange-500 dark:focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-blue-500/30 dark:focus:ring-orange-500/30 transition-all duration-300 text-sm shadow-sm"
                   required
                 />
               </div>
@@ -141,22 +143,22 @@ const Login = () => {
 
             {/* Password */}
             <div className="space-y-2">
-              <label className="block text-gray-600 text-xs font-semibold uppercase tracking-wider">Password</label>
+              <label className="block text-gray-600 dark:text-orange-400 text-xs font-semibold uppercase tracking-wider">Password</label>
               <div className="relative group">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500 group-focus-within:text-blue-500 dark:group-focus-within:text-orange-500 transition-colors" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter your password"
-                  className="w-full pl-10 pr-12 py-3 bg-white/40 border border-gray-200 hover:border-gray-300 focus:border-blue-500 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500/30 transition-all duration-300 text-sm shadow-sm"
+                  className="w-full pl-10 pr-12 py-3 bg-white/40 border border-gray-200 hover:border-gray-300 focus:border-blue-500 rounded-xl text-gray-800 placeholder-gray-400 dark:bg-[#121a24]/90 dark:border-[#2c3b4d] dark:text-white dark:placeholder-gray-500 dark:hover:border-orange-500 dark:focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-blue-500/30 dark:focus:ring-orange-500/30 transition-all duration-300 text-sm shadow-sm"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none transition-colors"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-orange-400 focus:outline-none transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -167,9 +169,9 @@ const Login = () => {
               <label className="flex items-center cursor-pointer select-none">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500/50 cursor-pointer"
+                  className="w-4 h-4 rounded border-gray-300 text-blue-600 dark:text-orange-500 focus:ring-blue-500/50 dark:focus:ring-orange-500/50 cursor-pointer"
                 />
-                <span className="ml-2 text-xs text-gray-500 leading-none">Remember me</span>
+                <span className="ml-2 text-xs text-gray-500 dark:text-gray-300 leading-none">Remember me</span>
               </label>
             </div>
 
@@ -180,7 +182,7 @@ const Login = () => {
               className={`w-full mt-4 py-3.5 rounded-xl text-white font-bold tracking-wide transition-all duration-300 relative overflow-hidden group/btn ${
                 loading
                   ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-blue-500 via-indigo-500 to-indigo-600 hover:shadow-[0_0_20px_rgba(99,102,241,0.25)] active:scale-[0.98]'
+                  : 'bg-gradient-to-r from-blue-500 via-indigo-500 to-indigo-600 dark:from-orange-500 dark:to-orange-600 hover:shadow-[0_0_20px_rgba(99,102,241,0.25)] dark:hover:shadow-[0_0_20px_rgba(249,115,22,0.25)] active:scale-[0.98]'
               }`}
             >
               {loading ? (
@@ -193,17 +195,17 @@ const Login = () => {
                 </span>
               ) : (
                 <>
-                  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-600 via-indigo-500 to-blue-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500"></span>
+                  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-600 via-indigo-500 to-blue-500 dark:from-orange-600 dark:to-orange-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500"></span>
                   <span className="relative z-10">Sign In</span>
                 </>
               )}
             </button>
           </form>
 
-          <div className="mt-8 text-center border-t border-gray-100 pt-6">
-            <p className="text-gray-500 text-sm">
+          <div className="mt-8 text-center border-t border-gray-100 dark:border-gray-800 pt-6">
+            <p className="text-gray-500 dark:text-gray-300 text-sm">
               Don't have an account?{' '}
-              <Link to="/register" className="text-blue-600 hover:text-indigo-600 font-bold transition-colors">
+              <Link to="/register" className="text-blue-600 dark:text-orange-400 dark:hover:text-orange-500 font-bold transition-colors">
                 Register here
               </Link>
             </p>

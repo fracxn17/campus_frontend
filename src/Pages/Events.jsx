@@ -1,40 +1,19 @@
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import EventCard from '../Components/EventCard';
+import alumniMeetBanner from '../assets/alumni_meet_banner.jpg';
 
 const upcomingEvents = [
   {
     id: 1,
     title: 'Annual Alumni Meet 2026',
-    date: 'June 15, 2026',
+    date: 'Stay Tuned',
     time: '10:00 AM - 5:00 PM',
-    location: 'Main Campus Auditorium',
-    attendees: 450,
-    image: 'https://images.unsplash.com/photo-1778876091264-1446d649156c?w=800',
+    location: 'College Campus',
+    attendees: 'xxxx',
+    image: alumniMeetBanner,
     description: 'Join us for the biggest alumni gathering of the year with networking sessions, panel discussions, and celebrations.',
     category: 'Reunion',
-  },
-  {
-    id: 2,
-    title: 'Career Development Workshop',
-    date: 'June 22, 2026',
-    time: '2:00 PM - 4:00 PM',
-    location: 'Virtual Event',
-    attendees: 200,
-    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800',
-    description: 'Learn from industry leaders about career growth strategies and skill development.',
-    category: 'Workshop',
-  },
-  {
-    id: 3,
-    title: 'Tech Innovation Summit',
-    date: 'July 5, 2026',
-    time: '9:00 AM - 6:00 PM',
-    location: 'Tech Park Convention Center',
-    attendees: 300,
-    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800',
-    description: 'Explore the latest in technology and innovation with alumni tech entrepreneurs.',
-    category: 'Summit',
   },
 ];
 

@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, Calendar, Briefcase, ArrowRight, Award, Network, MessageCircle } from 'lucide-react';
+import { Users, Calendar, ArrowRight, Award, Network, MessageCircle } from 'lucide-react';
 import EventCard from '../Components/EventCard';
 import campusImage from '../assets/campus.png';
+import priyotaPhoto from '../assets/priyota_kundu.jpg';
+import titasPhoto from '../assets/titas_karmakar.png';
+import alumniMeetBanner from '../assets/alumni_meet_banner.jpg';
 
 function ImageWithFallback({ src, alt, className }) {
   const [error, setError] = useState(false);
@@ -78,36 +81,18 @@ const Home = () => {
     {
       id: 1,
       title: 'Annual Alumni Meet 2026',
-      date: 'June 15, 2026',
-      location: 'Main Campus Auditorium',
-      image: 'https://images.unsplash.com/photo-1778876091264-1446d649156c?w=800',
+      date: 'Stay Tuned',
+      location: 'College Campus',
+      image: alumniMeetBanner,
       description: 'Join us for the biggest alumni gathering of the year with networking and celebrations.',
       category: 'Reunion',
-    },
-    {
-      id: 2,
-      title: 'Career Development Workshop',
-      date: 'June 22, 2026',
-      location: 'Virtual Event',
-      image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800',
-      description: 'Learn from industry leaders about career growth strategies and skill development.',
-      category: 'Workshop',
-    },
-    {
-      id: 3,
-      title: 'Tech Innovation Summit',
-      date: 'July 5, 2026',
-      location: 'Tech Park Convention Center',
-      image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800',
-      description: 'Explore the latest in technology and innovation with alumni tech entrepreneurs.',
-      category: 'Summit',
     },
   ];
 
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="relative text-white min-h-[500px] flex items-center"
+      <div className="relative text-white min-h-[500px] flex flex-col justify-between"
         style={{
           backgroundImage: `url(${campusImage})`,
           backgroundSize: 'cover',
@@ -118,56 +103,57 @@ const Home = () => {
       >
         {/* Gradient overlay */}
         <div className="absolute inset-0 hero-overlay"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 flex justify-start">
-          <div className="max-w-2xl text-left">
-            <h1 className="text-5xl font-bold mb-6 hero-animate gradient-text">
-              Connecting Alumni, Building Futures
-            </h1>
-            <p className="text-xl text-gray-200 mb-8 hero-animate-delay">
-              Join thousands of alumni staying connected, networking, and creating opportunities together.
-            </p>
-            <div className="flex gap-4 hero-animate-delay-2">
-              <button
-                onClick={() => navigate('/register')}
-                className="glow-button px-6 py-3 bg-white text-blue-600 rounded-lg hover:bg-gray-100 flex items-center gap-2 font-semibold transition-all duration-300"
-              >
-                Get Started <ArrowRight className="w-5 h-5" />
-              </button>
-            </div>
+
+        {/* Top left content */}
+        <div className="relative max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-12 text-left z-10">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-3 hero-animate whitespace-nowrap overflow-x-auto scrollbar-none"
+            style={{
+              color: '#A35139',
+              textShadow: '0 0 12px #ffffff, 0 0 6px #ffffff'
+            }}>
+            Connecting Alumni, Building Futures
+          </h1>
+        </div>
+
+        {/* Middle Button */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+          <div className="pointer-events-auto hero-animate-delay-2">
+            <button
+              onClick={() => navigate('/register')}
+              className="glow-button px-8 py-4 bg-white text-blue-600 rounded-lg hover:bg-gray-100 flex items-center gap-2 font-bold text-lg shadow-2xl transition-all duration-300"
+            >
+              Get Started <ArrowRight className="w-6 h-6" />
+            </button>
           </div>
         </div>
+
+        {/* Bottom space balance */}
+        <div className="h-16 z-10"></div>
       </div>
 
       {/* Statistics Section */}
       <div ref={statsRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div className={`stat-card bg-white rounded-lg shadow-lg p-6 text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-blue-500 border-2 border-transparent cursor-pointer fade-in delay-1 ${statsVisible ? 'visible' : ''}`}>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className={`stat-card bg-white rounded-lg shadow-lg p-6 text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-[#A35139] hover:shadow-[0_0_20px_rgba(163,81,57,0.5)] border-2 border-transparent cursor-pointer fade-in delay-1 ${statsVisible ? 'visible' : ''}`}>
             <Users className="w-12 h-12 text-blue-600 mx-auto mb-3 float-animation" />
             <div className="text-3xl font-bold text-gray-900 mb-1">
-              <AnimatedCounter target="15,000" />
+              <AnimatedCounter target="01" />
             </div>
             <div className="text-gray-600">Total Alumni</div>
           </div>
-          <div className={`stat-card bg-white rounded-lg shadow-lg p-6 text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-blue-500 border-2 border-transparent cursor-pointer fade-in delay-2 ${statsVisible ? 'visible' : ''}`}>
+          <div className={`stat-card bg-white rounded-lg shadow-lg p-6 text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-[#A35139] hover:shadow-[0_0_20px_rgba(163,81,57,0.5)] border-2 border-transparent cursor-pointer fade-in delay-2 ${statsVisible ? 'visible' : ''}`}>
             <Network className="w-12 h-12 text-blue-600 mx-auto mb-3 float-animation" style={{ animationDelay: '0.5s' }} />
             <div className="text-3xl font-bold text-gray-900 mb-1">
-              <AnimatedCounter target="8,500" />
+              <AnimatedCounter target="01" />
             </div>
             <div className="text-gray-600">Active Members</div>
           </div>
-          <div className={`stat-card bg-white rounded-lg shadow-lg p-6 text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-blue-500 border-2 border-transparent cursor-pointer fade-in delay-3 ${statsVisible ? 'visible' : ''}`}>
+          <div className={`stat-card bg-white rounded-lg shadow-lg p-6 text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-[#A35139] hover:shadow-[0_0_20px_rgba(163,81,57,0.5)] border-2 border-transparent cursor-pointer fade-in delay-3 ${statsVisible ? 'visible' : ''}`}>
             <Calendar className="w-12 h-12 text-blue-600 mx-auto mb-3 float-animation" style={{ animationDelay: '1s' }} />
             <div className="text-3xl font-bold text-gray-900 mb-1">
-              <AnimatedCounter target="250" />
+              <AnimatedCounter target="01" />
             </div>
             <div className="text-gray-600">Events Conducted</div>
-          </div>
-          <div className={`stat-card bg-white rounded-lg shadow-lg p-6 text-center transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-blue-500 border-2 border-transparent cursor-pointer fade-in delay-4 ${statsVisible ? 'visible' : ''}`}>
-            <Briefcase className="w-12 h-12 text-blue-600 mx-auto mb-3 float-animation" style={{ animationDelay: '1.5s' }} />
-            <div className="text-3xl font-bold text-gray-900 mb-1">
-              <AnimatedCounter target="1,200" />
-            </div>
-            <div className="text-gray-600">Job Opportunities</div>
           </div>
         </div>
       </div>
@@ -177,7 +163,7 @@ const Home = () => {
         <h2 className={`text-4xl font-bold text-center text-gray-900 mb-12 fade-in ${benefitsVisible ? 'visible' : ''}`}>
           Why Join CampusLegacy?
         </h2>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 gap-8">
           <div className={`benefit-card bg-white rounded-xl shadow-md p-8 border border-gray-100 fade-in delay-1 ${benefitsVisible ? 'visible' : ''}`}>
             <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mb-4">
               <Network className="w-7 h-7 text-blue-600" />
@@ -185,15 +171,6 @@ const Home = () => {
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Powerful Network</h3>
             <p className="text-gray-600">
               Connect with alumni across the globe, expand your professional network, and create meaningful relationships.
-            </p>
-          </div>
-          <div className={`benefit-card bg-white rounded-xl shadow-md p-8 border border-gray-100 fade-in delay-2 ${benefitsVisible ? 'visible' : ''}`}>
-            <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-              <Briefcase className="w-7 h-7 text-blue-600" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Career Opportunities</h3>
-            <p className="text-gray-600">
-              Access exclusive job postings, internships, and mentorship programs from fellow alumni and partner companies.
             </p>
           </div>
           <div className={`benefit-card bg-white rounded-xl shadow-md p-8 border border-gray-100 fade-in delay-3 ${benefitsVisible ? 'visible' : ''}`}>
@@ -239,33 +216,33 @@ const Home = () => {
           <div className={`quote-card bg-white rounded-xl shadow-md p-8 border border-gray-100 slide-left delay-1 ${storiesVisible ? 'visible' : ''}`}>
             <div className="flex items-start gap-4 mb-4">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300"
-                alt="Sarah Johnson"
+                src={priyotaPhoto}
+                alt="Priyota Kundu"
                 className="w-16 h-16 rounded-full object-cover"
               />
               <div>
-                <h4 className="text-lg font-semibold text-gray-900">Sarah Johnson</h4>
-                <p className="text-gray-600 text-sm">CEO, TechVentures Inc. | Class of 2015</p>
+                <h4 className="text-lg font-semibold text-gray-900">Priyota Kundu</h4>
+                <p className="text-gray-600 text-sm">Ex-Intern @Acceleratron | Class of 2022</p>
               </div>
             </div>
             <p className="text-gray-600 italic">
-              "CampusLegacy helped me connect with mentors who guided my entrepreneurial journey. The network I built here was instrumental in securing my first round of funding."
+              "CampusLegacy helped me connect with mentors who guided my entrepreneurial journey. The network I built here was instrumental in securing my first round of interview"
             </p>
           </div>
           <div className={`quote-card bg-white rounded-xl shadow-md p-8 border border-gray-100 slide-right delay-2 ${storiesVisible ? 'visible' : ''}`}>
             <div className="flex items-start gap-4 mb-4">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300"
-                alt="Michael Chen"
+                src={titasPhoto}
+                alt="Titas Karmakar"
                 className="w-16 h-16 rounded-full object-cover"
               />
               <div>
-                <h4 className="text-lg font-semibold text-gray-900">Michael Chen</h4>
-                <p className="text-gray-600 text-sm">Senior Data Scientist, Google | Class of 2018</p>
+                <h4 className="text-lg font-semibold text-gray-900">Titas Karmakar</h4>
+                <p className="text-gray-600 text-sm">Ex-Intern @keysight Technology | Class of 2022</p>
               </div>
             </div>
             <p className="text-gray-600 italic">
-              "Through CampusLegacy, I found my current role at Google. The job portal and alumni referrals made all the difference in my career transition."
+              "Through CampusLegacy, I connected with alumni who helped guide my career path. The networking opportunities and referrals made all the difference in my transition."
             </p>
           </div>
         </div>

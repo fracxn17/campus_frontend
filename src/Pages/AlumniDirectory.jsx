@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, Filter, Grid, List, MapPin, Building, GraduationCap, Users, X, SlidersHorizontal } from 'lucide-react';
 import AlumniCard from '../Components/AlumniCard';
+import jayPhoto from '../assets/jay_prakash.jpg';
 
-const alumniData = [
+export const alumniData = [
   {
     id: 1,
-    name: 'Sarah Johnson',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300',
-    designation: 'CEO',
-    company: 'TechVentures Inc.',
-    batch: '2015',
+    name: 'Jay Prakash Sharma',
+    image: jayPhoto,
+    designation: 'MERN developer',
+    company: 'TCS',
+    batch: '2021',
     department: 'Computer Science',
-    location: 'San Francisco, CA',
+    location: 'West Bengal, India',
   },
 ];
 

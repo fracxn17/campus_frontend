@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Users, Calendar, Briefcase, MessageCircle, User, Settings } from 'lucide-react';
+import { Home, Users, Calendar, MessageCircle, User, Settings } from 'lucide-react';
 import { getUserRole } from '../Utilis/helpers';
 
 const Sidebar = () => {
@@ -9,10 +9,9 @@ const Sidebar = () => {
 
   const menuItems = [
     { path: '/dashboard', icon: Home, label: 'Dashboard' },
-    { path: '/profile', icon: User, label: 'My Profile' },
+    { path: '/profile', icon: User, label: 'Alumni Profile' },
     { path: '/directory', icon: Users, label: 'Alumni Directory' },
     { path: '/events', icon: Calendar, label: 'Events' },
-    { path: '/jobs', icon: Briefcase, label: 'Job Portal' },
     { path: '/messages', icon: MessageCircle, label: 'Messages' },
   ];
 
@@ -27,16 +26,15 @@ const Sidebar = () => {
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
-            
+
             return (
               <li key={item.path}>
                 <Link
                   to={item.path}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg ${
-                    isActive
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg ${isActive
                       ? 'text-white bg-blue-600'
                       : 'text-gray-700 hover:bg-gray-100'
-                  }`}
+                    }`}
                 >
                   <Icon className="w-5 h-5" />
                   {item.label}

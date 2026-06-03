@@ -26,6 +26,7 @@ db.exec(`
     email TEXT UNIQUE NOT NULL,
     phone TEXT DEFAULT '',
     password TEXT NOT NULL,
+    role TEXT DEFAULT 'student',
     batch TEXT DEFAULT '',
     department TEXT DEFAULT '',
     degree TEXT DEFAULT '',
@@ -35,12 +36,20 @@ db.exec(`
   )
 `);
 
+// Add role column if it doesn't exist (for existing databases)
+try {
+  db.exec(`ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'student'`);
+  console.log('✅ Added role column to users table');
+} catch (e) {
+  // Column already exists, ignore
+}
+
 console.log('✅ Database initialized');
 
 // ─── REGISTER ───────────────────────────────────────────────
 app.post('/api/register', async (req, res) => {
   try {
-    const { fullName, email, password } = req.body;
+    const { fullName, email, password, role } = req.body;
 
     // Validate required fields
     if (!fullName || !email || !password) {
@@ -58,14 +67,16 @@ app.post('/api/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Insert user with default empty strings for optional student profile fields
+    const userRole = role === 'alumni' ? 'alumni' : 'student';
+
     const stmt = db.prepare(`
-      INSERT INTO users (fullName, email, phone, password, batch, department, degree, location, rollNumber)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO users (fullName, email, phone, password, role, batch, department, degree, location, rollNumber)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
-    const result = stmt.run(fullName, email, '', hashedPassword, '', '', '', '', '');
+    const result = stmt.run(fullName, email, '', hashedPassword, userRole, '', '', '', '', '');
 
-    const newUser = db.prepare('SELECT id, fullName, email, phone, batch, department, degree, location, rollNumber, createdAt FROM users WHERE id = ?').get(result.lastInsertRowid);
+    const newUser = db.prepare('SELECT id, fullName, email, phone, role, batch, department, degree, location, rollNumber, createdAt FROM users WHERE id = ?').get(result.lastInsertRowid);
 
     res.status(201).json({
       success: true,
@@ -132,7 +143,7 @@ app.post('/api/user/update', (req, res) => {
 
     stmt.run(fullName || '', phone || '', batch || '', department || '', degree || '', location || '', rollNumber || '', id);
 
-    const updatedUser = db.prepare('SELECT id, fullName, email, phone, batch, department, degree, location, rollNumber, createdAt FROM users WHERE id = ?').get(id);
+    const updatedUser = db.prepare('SELECT id, fullName, email, phone, role, batch, department, degree, location, rollNumber, createdAt FROM users WHERE id = ?').get(id);
 
     res.json({
       success: true,
@@ -141,6 +152,21 @@ app.post('/api/user/update', (req, res) => {
     });
   } catch (error) {
     console.error('Update user error:', error);
+    res.status(500).json({ success: false, message: 'Server error. Please try again.' });
+  }
+});
+
+// ─── GET USER PROFILE BY ID ───────────────────────────────────
+app.get('/api/users/:id', (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = db.prepare('SELECT id, fullName, email, phone, role, batch, department, degree, location, rollNumber, createdAt FROM users WHERE id = ?').get(id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    res.json({ success: true, user });
+  } catch (error) {
+    console.error('Get user error:', error);
     res.status(500).json({ success: false, message: 'Server error. Please try again.' });
   }
 });
