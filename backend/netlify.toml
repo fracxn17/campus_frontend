@@ -2,7 +2,11 @@
   functions = "netlify/functions"
   publish = "public"
 
+[build.environment]
+  PYTHON_VERSION = "3.12"
+
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions/main"
+  to = "/.netlify/functions/main/:splat"
   status = 200
+  force = true
