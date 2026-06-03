@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Search, Filter, Grid, List, MapPin, Building, GraduationCap, Users, X, SlidersHorizontal } from 'lucide-react';
 import AlumniCard from '../Components/AlumniCard';
 import jayPhoto from '../assets/jay_prakash.jpg';
+import { API_BASE_URL } from '../config/api';
 
 export const alumniData = [
   {
@@ -29,7 +30,7 @@ const AlumniDirectory = () => {
   useEffect(() => {
     const fetchAlumni = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/users');
+        const response = await fetch(`${API_BASE_URL}/api/users`);
         const data = await response.json();
         if (data.success) {
           const alumniOnly = data.users.filter(u => u.role === 'alumni');

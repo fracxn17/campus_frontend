@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { alumniData } from './AlumniDirectory';
 import jayPhoto from '../assets/jay_prakash.jpg';
+import { API_BASE_URL } from '../config/api';
 
 
 function ImageWithFallback({ src, alt, className }) {
@@ -94,7 +95,7 @@ const AlumniProfile = () => {
         const fetchAlumnus = async () => {
           setLoading(true);
           try {
-            const response = await fetch(`http://localhost:5000/api/users/${id}`);
+            const response = await fetch(`${API_BASE_URL}/api/users/${id}`);
             const data = await response.json();
             if (data.success) {
               setDisplayedProfile(data.user);
@@ -183,7 +184,7 @@ const AlumniProfile = () => {
     setSuccessMsg('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/user/update', {
+      const response = await fetch(`${API_BASE_URL}/api/user/update`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

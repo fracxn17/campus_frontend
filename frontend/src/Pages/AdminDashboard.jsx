@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Users, UserPlus, Calendar, TrendingUp, Edit, Trash2 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { API_BASE_URL } from '../config/api';
 
 const monthlyData = [
   { month: 'Jan', alumni: 245, events: 12 },
@@ -24,7 +25,7 @@ const AdminDashboard = () => {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/admin/stats');
+      const response = await fetch(`${API_BASE_URL}/api/admin/stats`);
       const data = await response.json();
       if (data.success) {
         setStats({
@@ -40,7 +41,7 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/admin/users');
+      const response = await fetch(`${API_BASE_URL}/api/admin/users`);
       const data = await response.json();
       if (data.success) {
         setUsers(data.users);
@@ -66,7 +67,7 @@ const AdminDashboard = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/admin/users/${userId}/role`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/users/${userId}/role`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ role: sanitizedRole }),
@@ -88,7 +89,7 @@ const AdminDashboard = () => {
     if (!confirm(`Are you sure you want to permanently delete user "${name}"?`)) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/admin/users/${userId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/users/${userId}`, {
         method: 'DELETE',
       });
       const data = await response.json();

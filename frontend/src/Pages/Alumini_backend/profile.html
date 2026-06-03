@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create Profile</title>
+</head>
+<body>
+
+<h2>Alumni Profile</h2>
+
+<label for="batch">Batch</label><br>
+<input id="batch" placeholder="Batch"><br><br>
+
+<label for="department">Department</label><br>
+<input id="department"
+       placeholder="Department"><br><br>
+
+<label for="company">Company</label><br>
+<input id="company"
+       placeholder="Company"><br><br>
+
+<label for="designation">Designation</label><br>
+<input id="designation"
+       placeholder="Designation"><br><br>
+
+<label for="skills">Skills</label><br>
+<input id="skills"
+       placeholder="Skills"><br><br>
+
+<label for="linkedin">LinkedIn</label><br>
+<input id="linkedin"
+       placeholder="LinkedIn"><br><br>
+
+<label for="location">Location</label><br>
+<input id="location"
+       placeholder="Location"><br><br>
+
+<button onclick="saveProfile()">
+    Save Profile
+</button>
+
+<script>
+
+async function saveProfile() {
+
+    const token =
+        localStorage.getItem("token");
+
+    const data = {
+        batch: document.getElementById("batch").value,
+        department: document.getElementById("department").value,
+        company: document.getElementById("company").value,
+        designation: document.getElementById("designation").value,
+        skills: document.getElementById("skills").value,
+        linkedin: document.getElementById("linkedin").value,
+        location: document.getElementById("location").value
+    };
+
+    const response = await fetch(
+        "http://127.0.0.1:8000/alumini/profile",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type":
+                    "application/json",
+
+                "Authorization":
+                    `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        }
+    );
+
+    const result = await response.json();
+
+    alert(JSON.stringify(result));
+}
+</script>
+
+</body>
+</html>

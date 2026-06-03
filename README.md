@@ -8,9 +8,6 @@
 # Navigate to the backend directory
 cd backend
 
-# Install dependencies
-uv add fastapi uvicorn sqlalchemy python-dotenv python-jose[cryptography] bcrypt python-multipart
-
 # Start the FastAPI server on port 5000
 uv run uvicorn main:app --host localhost --port 5000 --reload
 ```
