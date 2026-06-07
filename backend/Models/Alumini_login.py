@@ -28,6 +28,7 @@ class AluminiProfile(Base):
     degree = Column(String, default="")
     rollNumber = Column(String, default="")
     phone = Column(String, default="")
+    gender = Column(String, default="")
 
     user = relationship("LOGIN", back_populates="profile")
 

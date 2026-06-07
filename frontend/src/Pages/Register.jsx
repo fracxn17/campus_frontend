@@ -18,6 +18,7 @@ const Register = () => {
     password: '',
     confirmPassword: '',
     role: 'alumni',
+    gender: '',
   });
 
   const handleSubmit = async (e) => {
@@ -48,6 +49,7 @@ const Register = () => {
           email: formData.email,
           password: formData.password,
           role: formData.role,
+          gender: formData.gender,
         }),
       });
 
@@ -58,7 +60,7 @@ const Register = () => {
         login(data.user);
         setTimeout(() => navigate('/'), 1500);
       } else {
-        setError(data.message || 'Registration failed. Please try again.');
+        setError(data.message || data.detail || 'Registration failed. Please try again.');
       }
     } catch (err) {
       setError('Unable to connect to server. Please make sure the server is running.');
@@ -153,7 +155,31 @@ const Register = () => {
                 </button>
               </div>
             </div>
-            {/* Full Name */}
+
+            {/* Gender Selector */}
+            <div className="space-y-2">
+              <label className="block text-gray-300 dark:text-orange-400 text-xs font-semibold uppercase tracking-wider">Gender</label>
+              <div className="flex gap-3">
+                {[
+                  { value: 'male',   label: '♂ Male' },
+                  { value: 'female', label: '♀ Female' },
+                  { value: 'other',  label: '◎ Other' },
+                ].map(g => (
+                  <button
+                    key={g.value}
+                    type="button"
+                    onClick={() => setFormData({ ...formData, gender: g.value })}
+                    className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 border ${
+                      formData.gender === g.value
+                        ? 'bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-orange-500 dark:to-orange-600 text-white border-transparent shadow-lg shadow-blue-200/20 dark:shadow-orange-500/20'
+                        : 'bg-white/[0.04] dark:bg-[#121a24]/90 border-white/[0.08] dark:border-[#2c3b4d] text-gray-400 hover:border-white/[0.15] dark:hover:border-orange-500/50'
+                    }`}
+                  >
+                    {g.label}
+                  </button>
+                ))}
+              </div>
+            </div>
             <div className="space-y-2">
               <label className="block text-gray-300 dark:text-orange-400 text-xs font-semibold uppercase tracking-wider">Full Name</label>
               <div className="relative group">

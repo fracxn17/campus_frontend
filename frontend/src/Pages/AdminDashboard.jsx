@@ -74,11 +74,11 @@ const AdminDashboard = () => {
       });
       const data = await response.json();
       if (data.success) {
-        alert(data.message);
+        alert(data.message || data.detail || 'User role updated successfully.');
         fetchUsers();
         fetchStats();
       } else {
-        alert(data.message || 'Failed to update user role');
+        alert(data.message || data.detail || 'Failed to update user role');
       }
     } catch (err) {
       alert('Error connecting to the server');
@@ -94,11 +94,11 @@ const AdminDashboard = () => {
       });
       const data = await response.json();
       if (data.success) {
-        alert(data.message);
+        alert(data.message || data.detail || 'User deleted successfully.');
         fetchUsers();
         fetchStats();
       } else {
-        alert(data.message || 'Failed to delete user');
+        alert(data.message || data.detail || 'Failed to delete user');
       }
     } catch (err) {
       alert('Error connecting to the server');

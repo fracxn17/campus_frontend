@@ -330,6 +330,22 @@ a {
   animation: dropdownIn 0.2s ease-out forwards;
 }
 
+/* Edit Profile slide-over panel */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* ===== GLOBAL THEME OVERRIDES (Raleway + Light & Dark Modes) ===== */
 
 /* Base background classes override */

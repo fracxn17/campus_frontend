@@ -53,6 +53,7 @@ class RegisterRequest(BaseModel):
     email: str
     password: str
     role: str = "student"
+    gender: str = ""
 
 class LoginRequest(BaseModel):
     email: str
@@ -67,6 +68,7 @@ class ProfileUpdateRequest(BaseModel):
     degree: str = ""
     location: str = ""
     rollNumber: str = ""
+    gender: str = ""
 
 class RoleUpdateRequest(BaseModel):
     role: str
@@ -131,7 +133,8 @@ def make_unified_user(user: LOGIN):
             "location": profile.location or "",
             "degree": profile.degree or "",
             "rollNumber": profile.rollNumber or "",
-            "phone": profile.phone or ""
+            "phone": profile.phone or "",
+            "gender": profile.gender or ""
         }
     
     return {
@@ -183,7 +186,8 @@ def api_register(info: RegisterRequest):
             location="",
             degree="",
             rollNumber="",
-            phone=""
+            phone="",
+            gender=info.gender
         )
         db.add(new_profile)
         db.commit()
@@ -237,6 +241,7 @@ def api_update_user(info: ProfileUpdateRequest):
         profile.degree = info.degree
         profile.location = info.location
         profile.rollNumber = info.rollNumber
+        profile.gender = info.gender
         
         db.commit()
         db.refresh(user)

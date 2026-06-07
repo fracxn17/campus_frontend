@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { GraduationCap, Mail, Lock, Eye, EyeOff, ArrowLeft, AlertCircle, CheckCircle, UserPlus } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { API_BASE_URL } from '../config/api';
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
+  const redirectMessage = location.state?.message;
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -38,13 +40,13 @@ const Login = () => {
         // Determine error type based on status code
         if (response.status === 404) {
           setErrorType('not_found');
-          setError(data.message);
+          setError(data.message || data.detail || 'Account not found.');
         } else if (response.status === 401) {
           setErrorType('wrong_password');
-          setError(data.message);
+          setError(data.message || data.detail || 'Incorrect password.');
         } else {
           setErrorType('general');
-          setError(data.message || 'Login failed. Please try again.');
+          setError(data.message || data.detail || 'Login failed. Please try again.');
         }
       }
     } catch (err) {
@@ -97,6 +99,14 @@ const Login = () => {
             <h2 className="text-3xl font-extrabold text-white dark:text-orange-400 tracking-tight mb-2 font-display">Welcome Back</h2>
             <p className="text-gray-400 dark:text-gray-300 text-sm">Sign in to your student portal</p>
           </div>
+
+          {/* Info Alert (e.g. redirect prompt) */}
+          {redirectMessage && !error && (
+            <div className="mb-6 p-4 bg-blue-50/80 border border-blue-200/80 dark:bg-orange-500/10 dark:border-orange-500/20 rounded-2xl flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-blue-600 dark:text-orange-400 flex-shrink-0 mt-0.5" />
+              <p className="text-blue-800 dark:text-orange-200 text-sm leading-relaxed">{redirectMessage}</p>
+            </div>
+          )}
 
           {/* Error Alert - Account Not Found */}
           {error && errorType === 'not_found' && (
